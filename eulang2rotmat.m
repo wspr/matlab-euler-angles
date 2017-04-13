@@ -1,4 +1,4 @@
-function rotM = rotation_matrix(rr,order)
+function rotM = eulang2rotmat(rr,order)
 
 oo = order - 'X' + 1; % 'X' -> 1, 'Y' -> 2, 'Z' -> 3
 reord = [find(oo==1),find(oo==2),find(oo==3)];

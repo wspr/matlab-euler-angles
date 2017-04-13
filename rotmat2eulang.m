@@ -1,4 +1,4 @@
-function eul = euler_angles(R,order)
+function eul = rotmat2eulang(R,order)
 
 switch order
 
