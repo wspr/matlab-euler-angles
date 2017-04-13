@@ -6,9 +6,43 @@ clc
 
 eul_order = 'YZX'
 eul_ang = [0.1 0.4 0.3]
-R = rotation_matrix(eul_ang,eul_order)
-eul_ang_calc = euler_angles(R,eul_order)
+R = eulang2rotmat(eul_ang,eul_order)
+eul_ang_calc = rotmat2eulang(R,eul_order)
 
+%% Vectors to Rotation matrix
+%
+%
+
+clc
+
+Va = [1;0;0];
+Vb = [0;0;1];
+% Expect a -90° rotation around Y to transform B to A
+Rab = vec2rotmat(Va,Vb)
+eul = rotmat2eulang(Rab,'XYZ')
+expected = eulang2rotmat([0,-pi/2,0],'XYZ')
+
+[Vb Rab*Va]
+
+%%
+
+Va = rand(3,1); Va = Va/norm(Va);
+Vb = rand(3,1); Vb = Vb/norm(Vb);
+Rab = vec2rotmat(Va,Vb);
+[Vb Rab*Va]
+
+%%
+
+clc
+
+Va = [1;0;0];
+Vb = [1;0;1];
+% Expect a 45° rotation around Y to transform B to A
+Rab = vec2rotmat(Va,Vb)
+eul = rotmat2eulang(Rab,'XYZ')
+expected = eulang2rotmat([0,pi/4,0],'XYZ')
+
+[Vb Rab*Va]
 
 %% Stress testing
 
@@ -27,8 +61,8 @@ for ii = 1:Neuler
   for jj = 1:Niter
     
     x = pi/2*(2*rand(1,3)-1);
-    R = rotation_matrix(x,eul_order{ii});
-    X = euler_angles(R,eul_order{ii});
+    R = eulang2rotmat(x,eul_order{ii});
+    X = rotmat2eulang(R,eul_order{ii});
     
     err(jj,:) = X-x;
     if any( abs(X-x) > thresh )
