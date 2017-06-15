@@ -9,11 +9,14 @@ function Rab = vec2rotmat(Va,Vb)
 %  * Y axis of each frame aligned with Va/Vb respectively,
 %  * X axes tangential to the plane defined by Va&Vb,  
 %  * Z axes normal to both (i.e., parallel to the plane defined by Va&Vb)
+%
+% THIS CODE DOESN'T WORK BTW
 
 Va = Va/norm(Va);
 Vb = Vb/norm(Vb);
 
 Ax = cross(Va,Vb);
+Ax = Ax/norm(Ax);
 Ay = Va;
 Az = cross(Ax,Ay);
 
@@ -21,12 +24,12 @@ Bx = Ax;
 By = Vb;
 Bz = cross(Bx,By);
 
-RL  = [Ax';Ay';Az']
+RL  = [Ax';Ay';Az'];
 RLT = transpose(RL);
 
 Lab = [dot(Ax,Bx), dot(Ay,Bx), dot(Az,Bx);
        dot(Ax,By), dot(Ay,By), dot(Az,By);
-       dot(Ax,Bz), dot(Ay,Bz), dot(Az,Bz)]
+       dot(Ax,Bz), dot(Ay,Bz), dot(Az,Bz)];
 
 Rab = RL*Lab*RLT;
 
