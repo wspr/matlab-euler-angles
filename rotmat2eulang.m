@@ -33,7 +33,7 @@ switch order
     eul(3) = atan2(R(3,2),R(3,3));
     
   otherwise
-    error('Don''t know this one.')
+    error('Don''t know specified rotation order %s', order)
 
 end
 

@@ -1,7 +1,7 @@
 function rotM = eulang2rotmat(rr,order)
 
 oo = order - 'X' + 1; % 'X' -> 1, 'Y' -> 2, 'Z' -> 3
-reord = [find(oo==1),find(oo==2),find(oo==3)];
+reord = [find(order=='X'),find(order=='Y'),find(order=='Z')];
 
 c = cos(rr(reord));
 s = sin(rr(reord));
