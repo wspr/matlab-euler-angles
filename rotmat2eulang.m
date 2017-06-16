@@ -39,4 +39,4 @@ end
 
 end
 
-% License included in README.
+% Licence included in README.

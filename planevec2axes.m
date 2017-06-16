@@ -168,5 +168,4 @@ end
 
 end
 
-
-
+% Licence included in README.

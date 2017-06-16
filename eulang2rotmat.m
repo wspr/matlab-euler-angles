@@ -14,4 +14,4 @@ rotM = RxRyRz(:,:,oo(1))*RxRyRz(:,:,oo(2))*RxRyRz(:,:,oo(3));
 
 end
 
-% License included in README.
+% Licence included in README.

@@ -3,7 +3,7 @@
 This modest collection of files implements 3D kinematics calculations of the form
 included in works such as *Introduction to Robotics* by John J. Craig.
 
-A far more comprehensive package can be found in Peter Corke's ‘[Robotics Toolbox for Matlab][1]’.
+A far more comprehensive package can be found in Peter Corke's "[Robotics Toolbox for Matlab][1]".
 This work is intended to complement such work, not replace; in the present code,
 interfaces are provided for didactic purposes / syntactic sugar rather than efficiency.
 The scope of this work is also far more limited to basic geometry / kinematics.
