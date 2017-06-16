@@ -1,6 +1,6 @@
 # Matlab Euler Angles
 
-This modest collection of files implements Euler angle calculations of the form
+This modest collection of files implements 3D kinematics calculations of the form
 included in works such as *Introduction to Robotics* by John J. Craig.
 
 A far more comprehensive package can be found in Peter Corke's ‘[Robotics Toolbox for Matlab][1]’.
@@ -12,15 +12,12 @@ The scope of this work is also far more limited to basic geometry / kinematics.
 
 # Overview
 
-* `rotation_matrix.m` — calculates the 3x3 rotation matrix from an input set of Euler angles (i.e., *non-fixed* reference frames) in specified order
-* `euler_angles.m` — calculates the Euler angles in specified order from a rotation matrix
+* `eulang2rotmat.m` --�calculates the 3x3 rotation matrix from an input set of Euler angles (i.e., *non-fixed* reference frames) in specified order
+* `rotmat2eulang.m` -- calculates the Euler angles in specified order from a rotation matrix
+* `planevec2axes.m` -- calculates coordinate system unit vectors (or rotation matrix, etc.) from two vectors that form a plane
+* `plot_frame.m`    -- plot a 3D coordinate system
 
-It's probable that the algorithms in the `euler_angles.m` can be improved.
 
-Also, I really dislike this second of this code in `rotation_matrix.m` but it's too late at night for me to improve it:
-
-        oo = order - 'X' + 1; % 'X' -> 1, 'Y' -> 2, 'Z' -> 3
-        reord = [find(oo==1),find(oo==2),find(oo==3)];
 
 Documentation to be improved!
 
