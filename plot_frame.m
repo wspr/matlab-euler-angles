@@ -1,5 +1,6 @@
+
 function plot_frame( O, R, varargin )
-%% plot_coord( origin , <opts> )
+%% plot_frame( origin, rotation_matrix, <opts> )
 %
 % Plots a 3D coordinate system origin.
 % By default is aligned with the right-handed XYZ global coordinate system.
@@ -14,7 +15,7 @@ function plot_frame( O, R, varargin )
 %                          Whether to print coordinate system labels
 % 'index'       str ['1']  String index on labels (default str='1')
 % ------------------------------------------------------------------------
-% 'framelabelshift'  f    Amount to shift frame label (default s=[0 0 0])
+% 'framelabelshift'  f   Amount to shift frame label (default s=[0 0 0])
 % 'axeslabelshift'   f   Amount to shift x,y,z labels along their length (default s=[0.01 0.01 0.01])
 % 'labelsize'   f [12]   Font size for labels
 % 'length'      f [0.05] Length of axes lines
@@ -25,7 +26,7 @@ function plot_frame( O, R, varargin )
 % 'headopacity' f        Opacity of arrowhead faces
 % ------------------------------------------------------------------------
 
-%% Parse inputs:
+%% Define inputs
 
 p = inputParser;
 
@@ -48,25 +49,40 @@ p.addOptional('labelsize',12);
 
 p.parse(O,R,varargin{:})
 
+%% Process inputs
+
 al     = p.Results.length;
 hl     = p.Results.headlength;
 ang    = p.Results.arrowangle;
+ni     = p.Results.index;
+ecol   = p.Results.linecolour;
+col    = p.Results.headcolour;
+opac   = p.Results.headopacity;
 
-ni   = p.Results.index;
-ecol = p.Results.linecolour;
-col  = p.Results.headcolour;
-opac = p.Results.headopacity;
-labels_bool = p.Results.labels;
-plot_axes = p.Results.axes;
-axeslabelshift = p.Results.axeslabelshift;
+labels_bool     = p.Results.labels;
+plot_axes       = p.Results.axes;
+axeslabelshift  = p.Results.axeslabelshift;
 framelabelshift = p.Results.framelabelshift;
-labelsize = p.Results.labelsize;
+labelsize       = p.Results.labelsize;
 
 if numel(axeslabelshift) == 1
   axeslabelshift = [axeslabelshift, axeslabelshift, axeslabelshift];
 end
 
 
+%% Hard-coded rotation matrices
+
+% Rz(90°):
+RzP90 = [0    -1     0;
+         1     0     0;
+         0     0     1];
+
+% Ry(-90°):
+RyM90 = [0     0    -1;
+         0     1     0;
+         1     0     0];
+
+       
 %% Definition of a single axis (X)
 %
 % This is rotated to plot the other two in Y and Z.
@@ -91,15 +107,16 @@ if strcmp(plot_axes,'xyz')
   end
 end
 
-for s = plot_axes
-  switch s
-    case 'x'
-      plot_one_coord(O,R*ax,        R*head1,        R*head2,        ['x_{',ni,'}'],[axeslabelshift(1); 0; 0])
-    case 'y'
-      plot_one_coord(O,R*Rz(+90)*ax,R*Rz(+90)*head1,R*Rz(+90)*head2,['y_{',ni,'}'],[0; axeslabelshift(2); 0])
-    case 'z'
-      plot_one_coord(O,R*Ry(-90)*ax,R*Ry(-90)*head1,R*Ry(-90)*head2,['z_{',ni,'}'],[0; 0; axeslabelshift(3)])
-  end
+if any(plot_axes=='x')
+  plot_one_coord(O,R*ax,      R*head1,      R*head2,      ['x_{',ni,'}'],[axeslabelshift(1); 0; 0])
+end
+
+if any(plot_axes=='y')
+  plot_one_coord(O,R*RzP90*ax,R*RzP90*head1,R*RzP90*head2,['y_{',ni,'}'],[0; axeslabelshift(2); 0])
+end
+
+if any(plot_axes=='z')
+  plot_one_coord(O,R*RyM90*ax,R*RyM90*head1,R*RyM90*head2,['z_{',ni,'}'],[0; 0; axeslabelshift(3)])
 end
 
 
@@ -118,31 +135,4 @@ end
 end
 
 
-%% Rotation matrices
-%
-% These could all be anonymous functions if we wanted.
-
-function R = Rz(t)
-R = [cosd(t) -sind(t) 0;
-     sind(t)  cosd(t) 0;
-     0        0       1];
-end
-
-function R = Ry(t)
-R = [ cosd(t) 0  sind(t);
-      0       1  0;
-     -sind(t) 0  cosd(t)];
-end
-
-% function R = Rx(t)
-% R = [1 0        0      ;
-%      0 cosd(t) -sind(t);
-%      0 sind(t)  cosd(t)];
-% end
-
-% assert( all( Rx(90)*[0;1;0]==[ 0; 0; 1]) )
-% assert( all( Rz(90)*[0;1;0]==[-1; 0; 0]) )
-% assert( all( Ry(90)*[1;0;0]==[ 0; 0;-1]) )
-% assert( all( Rz(90)*[1;0;0]==[ 0; 1; 0]) )
-% assert( all( Rx(90)*[0;0;1]==[ 0;-1; 0]) )
-% assert( all( Ry(90)*[0;0;1]==[ 1; 0; 0]) )
+% License included in README.
