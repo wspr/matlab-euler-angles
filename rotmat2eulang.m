@@ -1,4 +1,11 @@
 function eul = rotmat2eulang(R,order)
+% ROTMAT2EULANG Calculates fixed-euler angles from rotation matrix
+%
+% * `R`: Rotation matrix (3x3)
+% * `order`: Order of Euler angles to return; any of:
+%              {'XYZ','XZY','YXZ','YZX','ZYX','ZXY'}
+% * `EUL`: Euler angles in specified order
+%
 
 switch order
 
